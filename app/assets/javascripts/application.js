@@ -20,6 +20,6 @@
 //= require cocoon
 //= require select2
 //= require sweetalert
-
+//= require lightbox-bootstrap
 //= require turbolinks
 //= require_tree .

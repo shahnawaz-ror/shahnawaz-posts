@@ -11,9 +11,20 @@
     <strong>Description:</strong>
     <%= @post.description %>
   </p>
-  <p>Tags: <%= @post.all_tags %></p>
+  <p><strong>Tags:</strong> <%= @post.all_tags %></p>
 
-
+<div class="container">
+<%@post.images.each_slice(3) do |group|%>
+  <div class="row">
+    <% group.each do |image| %>
+      <a href="<%= image_url(image.avatar) %>" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+        <img src="<%= image_url(image.avatar) %>" class="img-fluid rounded">
+      </a>
+      <% end %>
+    
+  </div>
+<%end%>
+</div>
   <% if current_user.id == @post.user.id %>
 
   <%= link_to 'Edit', edit_post_path(@post) %> |
@@ -59,3 +70,10 @@
   </table>
 
 </div>
+
+<script type="text/javascript">
+  $(document).on("click", '[data-toggle="lightbox"]', function(event) {
+  event.preventDefault();
+  $(this).ekkoLightbox();
+});
+</script>
