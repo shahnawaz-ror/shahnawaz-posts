@@ -1,0 +1,61 @@
+<div class="container">
+
+  <p id="notice"><%= notice %></p>
+
+  <p>
+    <strong>Title:</strong>
+    <%= @post.title %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= @post.description %>
+  </p>
+  <p>Tags: <%= @post.all_tags %></p>
+
+
+  <% if current_user.id == @post.user.id %>
+
+  <%= link_to 'Edit', edit_post_path(@post) %> |
+  <% end %>
+  <%= link_to 'Back', posts_path %>
+  <h1>Add new Comments</h1>
+
+  <%= bootstrap_form_with(model: [ @post, @post.comments.build ], local: true) do |form| %>
+
+  
+
+  <%= form.text_field :title %>
+
+  <%= form.text_area :description %>
+
+  <%= form.submit %>
+  <% end %>
+  <h1>Comments</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Post</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <table class="table table-striped">
+      <% @post.comments.each do |comment| %>
+      <% next unless comment.id.present? %>
+      <tr>
+        <td><%= comment.title %></td>
+        <td><%= comment.description %></td>
+        <td><%= link_to 'Show', [@post,comment] %></td>
+        <% if current_user.id == comment.user.id %>
+        <td><%= link_to 'Edit', edit_post_comment_path(@post.id,comment.id) %></td>
+        <td><%= link_to 'Destroy', [@post,comment], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>

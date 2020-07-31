@@ -1,0 +1,109 @@
+<div class="container">
+
+  <h2>Edit <%= resource_name.to_s.humanize %></h2>
+
+  <%= bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      <%= f.select(:gender, ['Male', 'Female','other']) %>
+      <%= f.text_field :first_name %>
+      <%= f.file_field :avatar %>
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+      <% end %>
+
+      <%= f.password_field :password, autocomplete: "new-password" %>
+      <% if @minimum_password_length %>
+      <br />
+      <em><%= @minimum_password_length %> characters minimum</em>
+      <% end %>
+
+
+      <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+      <%= f.password_field :current_password, autocomplete: "current-password" %>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      
+
+      <%= f.text_field :last_name %>
+      <%= f.text_field :phone %>
+      <%= f.select :country, options_for_select(CS.countries.map { |c| [c[1], c[0]] } ), {:include_blank => 'Choose a country.'}%>
+      <%= f.select :state, options_for_select([]), {:include_blank => 'Choose a state'} %>
+      <%= f.select :city, options_for_select([]), {:include_blank => 'Choose a city'} %>
+
+    </div>
+
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Update" %>
+  </div>
+  <% end %>
+
+  <h3>Cancel my account</h3>
+
+  <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+
+  <%= link_to "Back", :back %>
+</div>
+
+<script type="text/javascript">
+  $( document ).ready(function() {
+    var country = "<%= @user.country rescue nil%>";
+    var state = "<%= @user.state rescue nil %>";
+    var city = "<%= @user.city rescue nil %>";
+    $.ajax({
+      type:'GET',
+      url:"/states?country_id=" + country,
+      success:function(response){
+        $.each( response["states"], function( index, value ){
+          $('#user_state').append( '<option value='+value[1]+'>' + value[0] + '</option>' );
+        });
+      }
+    });
+
+    $.ajax({
+      type:'GET',
+      url: "/cities?country_id=" + country + "&state_id=" + state,
+      success:function(response){
+        $.each( response["cities"], function( index, value ){
+         console.log(value)
+         $('#user_city').append( '<option value='+value+'>' + value + '</option>' );
+       });
+      }
+    });
+    setTimeout(function () {
+      $("#user_country").val(country);
+      $("#user_state").val(state);
+      $("#user_city").val(city);
+    }, 1000);
+  });
+  $( document ).ready(function() {
+    $("#user_country").change(function () {
+      $("#user_state, #user_city").find("option:gt(0)").remove();
+      $('#user_state').empty().append('<option selected="selected" value="">Select state</option>');
+      $('#user_city').empty().append('<option selected="selected" value="">Select city</option>');
+      $.getJSON("/states", {
+        country_id: $(this).val()
+      },
+      function (resp) {
+        for (var i = 0; i < resp.states.length; i++) {
+          $("<option/>").attr("value", resp.states[i][1]).text(resp.states[i][0]).appendTo($("#user_state"));
+        }
+      });
+    });
+    $("#user_state").change(function () {
+      $('#user_city').empty().append('<option selected="selected" value="">Select city</option>');
+      $.getJSON("/cities", {
+        state_id: $(this).val()
+      },
+      function (resp) {
+        for (var i = 0; i < resp.cities.length; i++) {
+          $("<option/>").attr("value", resp.cities[i]).text(resp.cities[i]).appendTo($("#user_city"));
+        }
+      });
+    });
+  });
+</script>

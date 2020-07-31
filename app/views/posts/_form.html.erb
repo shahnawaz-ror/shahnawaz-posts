@@ -1,0 +1,40 @@
+<%= bootstrap_form_with(model: post, local: true) do |form| %>
+  <% if post.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+    <ul>
+      <% post.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <%= form.text_field :title %>
+
+  <%= form.text_area :description %>
+  <select class="js-searchable" name="post[all_tags][]" multiple="multiple" style="width: 200px;">
+    <%= Tag.order(:name).each do |tag| %>
+    <% selected = post.all_tags.split(',').include? tag.name rescue nil %>
+    <option <%= 'selected="selected"' if selected %>><%= tag.name %></option>
+    <% end %>
+  </select>
+  <div id="images">
+    <%= form.fields_for :images do |picture| %>
+    <%= render 'image_fields', f: picture %>
+    <% end %>
+    <div class="links">
+      <%= link_to_add_association 'add image', form, :images %>
+    </div>
+  </div>
+  <%= form.submit %>
+<% end %>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".js-searchable").select2({
+      tags: true,
+      tokenSeparators: [',']
+    })
+  })
+</script>
