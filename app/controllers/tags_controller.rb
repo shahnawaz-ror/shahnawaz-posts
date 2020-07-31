@@ -5,7 +5,7 @@ class TagsController < ApplicationController
   # GET /tags
   # GET /tags.json
   def index
-    @tags = Tag.all
+    @pagy, @tags = pagy(Tag.all, page: params[:page], items: 5)
   end
 
   # GET /tags/1
