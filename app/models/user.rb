@@ -8,7 +8,6 @@ class User < ApplicationRecord
   validates :country, presence: true
   validates :state, presence: true
   validates :city, presence: true
-  validates :avatar, presence: true
 
   mount_uploader :avatar, AvatarUploader
   has_many :posts, dependent: :destroy
