@@ -20,10 +20,14 @@ Things you may want to cover:
 * Services (job queues, cache servers, search engines, etc.)
 
 * Deployment instructions
+
 rvm 2.6.4
 bundle install
+Configure database.yml
 rake db:create
 rake db:migrate
 rails s
+
+If running application in production need to configure The cloudinary also
 
 * ...
