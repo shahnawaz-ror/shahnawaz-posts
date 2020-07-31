@@ -13,7 +13,7 @@ Things you may want to cover:
 
 * Database creation
 
-* Database initialization
+* Database initialization* 
 
 * How to run the test suite
 
@@ -21,12 +21,17 @@ Things you may want to cover:
 
 * Deployment instructions
 
-rvm 2.6.4
-bundle install
-Configure database.yml
-rake db:create
-rake db:migrate
-rails s
+```
+$ rvm  rvm 2.6.4
+$ cd /path/to/repos
+$ git clone https://github.com/shahnawaz-ror/shahnawaz-posts
+$ cd shahnawaz-posts
+$ bundle install
+$ rake db:create #if first time installing
+$ rake db:migrate #If there are changes in DB
+$ rails s #start the rails application
+
+```
 
 If running application in production need to configure The cloudinary also
 
