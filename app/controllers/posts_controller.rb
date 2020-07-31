@@ -5,7 +5,7 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @pagy, @posts = pagy(Post.all, page: params[:page], items: 5)
+    @pagy, @posts = pagy(Post.search(params[:search]), page: params[:page], items: 5)
   end
 
   # GET /posts/1
