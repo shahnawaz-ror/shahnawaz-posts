@@ -19,5 +19,7 @@
 //= require activestorage
 //= require cocoon
 //= require select2
+//= require sweetalert
+
 //= require turbolinks
 //= require_tree .

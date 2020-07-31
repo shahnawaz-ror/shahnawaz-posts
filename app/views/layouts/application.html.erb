@@ -42,8 +42,17 @@
       </ul>
     </div>
   </nav>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
+  <script type="text/javascript">
+    <%  if notice.present?%>
+    var message = "<%= notice %>";
+    sweetAlert(message);
+    <% end %>
+    <%  if alert.present?%>
+    var message = "<%= alert %>";
+    sweetAlert(message);
+    
+    <% end %>
+  </script>
   
   <%= yield %>
 </body>
