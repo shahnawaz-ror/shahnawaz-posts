@@ -73,7 +73,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.3.3'
 end
 gem 'bootstrap_form', '~> 4.0'
-gem 'carrierwave', '~> 2.0'
+gem 'carrierwave', '~> 2.1'
 gem 'cocoon'
 gem 'country_state_select'
 gem 'jquery-datatables-rails', '~> 3.4.0'
